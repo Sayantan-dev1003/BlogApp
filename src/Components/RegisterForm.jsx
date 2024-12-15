@@ -1,37 +1,64 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; // Import toast
 
 const RegisterForm = ({ onToggle }) => {
-  const [fullName, setFullName] = useState('');
+  const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreement, setAgreement] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Full Name:', fullName);
-    console.log('Email:', email);
-    console.log('Username:', username);
-    console.log('Password:', password);
-    console.log('Agreement:', agreement);
+
+    if (!agreement) {
+      toast.error('Please agree to the terms and conditions'); // Show error toast
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match'); // Show error toast
+      return;
+    }
+
+    try {
+      const response = await axios.post('/register', {
+        fullname,
+        email,
+        username,
+        password,
+      });
+
+      if (response.status === 200) {
+        toast.success("Registration Successful!"); // Show success toast
+        navigate('/feed');
+      }
+    } catch (error) {
+      // Check if the error response exists and set the error message
+      if (error.response && error.response.data) {
+        toast.error(error.response.data); // Show error toast
+      } else {
+        toast.error("An unexpected error occurred."); // General error toast
+      }
+    }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw]"
-    >
+    <form onSubmit={handleSubmit} className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw]">
       <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
       <div className="mb-4">
-        <label className="block mb-2 text-sm cursor-pointer" htmlFor="fullName">
+        <label className="block mb-2 text-sm cursor-pointer" htmlFor="fullname">
           Full Name
         </label>
         <input
           type="text"
-          id="fullName"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
+          id="fullname"
+          value={fullname}
+          onChange={(e) => setFullname(e.target.value)}
           required
           className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Enter your full name"
@@ -93,14 +120,14 @@ const RegisterForm = ({ onToggle }) => {
           placeholder="Confirm your password"
         />
       </div>
-      <div className="mb- 4 flex items-center">
+      <div className="mb-4 flex items-center">
         <input
           type="checkbox"
           id="agreement"
           checked={agreement}
           onChange={(e) => setAgreement(e.target.checked)}
           required
-          className="mr-2"
+          className={`mr-2 ${!agreement ? 'outline-red-500 border-red-500' : ''}`} // Highlight if not checked
         />
         <label htmlFor="agreement" className="text-sm cursor-pointer">
           I agree to the terms and conditions

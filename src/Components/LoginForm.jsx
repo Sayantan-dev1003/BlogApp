@@ -1,13 +1,34 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; // Import toast
 
 const LoginForm = ({ onToggle }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+
+    try {
+      const response = await axios.post('/login', {
+        email,
+        password,
+      }, { withCredentials: true });
+
+      if (response.status === 200) {
+        toast.success("Login Successful!"); // Success toast
+        navigate('/feed');
+      }
+    } catch (error) {
+      // Check if the error response exists and set the error message
+      if (error.response && error.response.data) {
+        toast.error(error.response.data); // Error toast
+      } else {
+        toast.error("An unexpected error occurred."); // General error toast
+      }
+    }
   };
 
   return (
