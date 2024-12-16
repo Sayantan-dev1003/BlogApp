@@ -1,7 +1,9 @@
+import Header from "../Components/Header"
+
 const FeedPage = () => {
   return (
     <>
-        <p>Welcome to feed</p>
+        <Header />
     </>
   )
 }
