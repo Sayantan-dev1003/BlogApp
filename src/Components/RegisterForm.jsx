@@ -49,7 +49,7 @@ const RegisterForm = ({ onToggle }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw]">
-      <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
+      <h2 className="text-5xl font-extrabold mb-6 text-center dancingScript">Register</h2>
       <div className="mb-4">
         <label className="block mb-2 text-sm cursor-pointer" htmlFor="fullname">
           Full Name
@@ -60,7 +60,7 @@ const RegisterForm = ({ onToggle }) => {
           value={fullname}
           onChange={(e) => setFullname(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Enter your full name"
         />
       </div>
@@ -74,7 +74,7 @@ const RegisterForm = ({ onToggle }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Enter your email address"
         />
       </div>
@@ -88,7 +88,7 @@ const RegisterForm = ({ onToggle }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Choose a username"
         />
       </div>
@@ -102,7 +102,7 @@ const RegisterForm = ({ onToggle }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Enter your password"
         />
       </div>
@@ -116,7 +116,7 @@ const RegisterForm = ({ onToggle }) => {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Confirm your password"
         />
       </div>
@@ -127,15 +127,15 @@ const RegisterForm = ({ onToggle }) => {
           checked={agreement}
           onChange={(e) => setAgreement(e.target.checked)}
           required
-          className={`mr-2 ${!agreement ? 'outline-red-500 border-red-500' : ''}`} // Highlight if not checked
+          className={`mr-2 text-sm ${!agreement ? 'outline-red-500 border-red-500' : ''}`} // Highlight if not checked
         />
-        <label htmlFor="agreement" className="text-sm cursor-pointer">
+        <label htmlFor="agreement" className="text-xs cursor-pointer">
           I agree to the terms and conditions
         </label>
       </div>
       <button
         type="submit"
-        className="w-full bg-cyan-700 mt-4 font-medium text-white p-2 rounded hover:bg-cyan-800 transition"
+        className="w-full bg-cyan-700 font-semibold text-white p-2 rounded hover:bg-cyan-800 transition"
       >
         Register
       </button>

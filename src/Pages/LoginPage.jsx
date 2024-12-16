@@ -10,7 +10,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-cyan-100 text-cyan-800 montserrat">
+    <div className="flex items-center justify-center min-h-screen bg-cyan-50 text-cyan-800 poppins">
       {isLogin ? (
         <LoginForm onToggle={toggleForm} />
       ) : (

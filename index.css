@@ -6,6 +6,10 @@
   display: none;
 }
 
-.montserrat {
-  font-family: "Montserrat", sans-serif;
+.poppins {
+  font-family: "Poppins", sans-serif;
+}
+
+.dancingScript {
+  font-family: "Dancing Script", cursive;
 }

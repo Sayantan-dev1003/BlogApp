@@ -36,7 +36,7 @@ const LoginForm = ({ onToggle }) => {
       onSubmit={handleSubmit}
       className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw]"
     >
-      <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
+      <h2 className="text-5xl font-extrabold mb-6 text-center dancingScript">Login</h2>
       <div className="mb-4">
         <label className="block mb-2 text-sm cursor-pointer" htmlFor="email">
           Email Address
@@ -47,7 +47,7 @@ const LoginForm = ({ onToggle }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Enter your email address"
         />
       </div>
@@ -61,13 +61,13 @@ const LoginForm = ({ onToggle }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
+          className="w-full text-sm py-2 px-4 outline-cyan-700 rounded bg-cyan-100"
           placeholder="Enter your password"
         />
       </div>
       <button
         type="submit"
-        className="w-full bg-cyan-700 mt-4 font-medium text-white p-2 rounded hover:bg-cyan-800 transition"
+        className="w-full bg-cyan-700 mt-4 font-semibold text-white p-2 rounded hover:bg-cyan-800 transition"
       >
         Login
       </button>
