@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from "../Components/Header";
+import EditPicture from '../Components/EditPicture'; // Import the new component
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const EditProfile = () => {
   };
 
   const [userData, setUserData] = useState(initialUserData);
+  const [isEditPictureOpen, setEditPictureOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,8 +37,13 @@ const EditProfile = () => {
     navigate('/profile'); 
   };
 
+  const handleEditPicture = () => {
+    console.log("Edit picture clicked");
+    setEditPictureOpen(false); 
+  };
+
   return (
-    <div className="w-full h-screen poppins bg-cyan-50 poppins ">
+    <div className="w-full h-screen poppins bg-cyan-50">
       <Header />
       <div className="shadow-md w-2/3 rounded-lg p-6 translate-x-1/4 bg-white mt-5">
         <h1 className="text-2xl font-bold text-cyan-800 mb-4">Edit Profile</h1>
@@ -45,7 +52,8 @@ const EditProfile = () => {
           <img
             src={userData.profilePhoto}
             alt="Profile"
-            className="w-32 h-32 rounded-full border-2 border-gray-300"
+            className="w-32 h-32 rounded-full cursor-pointer"
+            onClick={() => setEditPictureOpen(true)} 
           />
         </div>
 
@@ -109,7 +117,7 @@ const EditProfile = () => {
                 value={userData.dob}
                 onChange={handleChange}
                 className="p-2 border border-gray-300 rounded w-full text-cyan-600"
-              />
+ />
             </div>
             <div className="w-full">
               <label className="block text-sm font-medium text-cyan-800">Occupation</label>
@@ -137,21 +145,28 @@ const EditProfile = () => {
           </div>
         </div>
 
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-end mt-6 gap-3">
           <button
             onClick={handleCancel}
-            className="mr-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+            className="py-2 px-3 bg-gray-300 text-gray-800 rounded text-sm hover:bg-gray-400"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600"
+            className="py-2 px-3 bg-cyan-500 text-white rounded text-sm hover:bg-cyan-600"
           >
             Save
           </button>
         </div>
       </div>
+
+      <EditPicture
+        isOpen={isEditPictureOpen}
+        onClose={() => setEditPictureOpen(false)}
+        profilePhoto={userData.profilePhoto}
+        onEdit={handleEditPicture}
+      />
     </div>
   );
 };
