@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { faBars, faBell } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SideBar from './SideBar'; // Import the SideBar component
+import SideBar from './SideBar';
 
 const Header = () => {
-    const [isOpen, setIsOpen] = useState(false); // State to manage sidebar visibility
+    const [isOpen, setIsOpen] = useState(false); 
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -12,7 +12,7 @@ const Header = () => {
 
     return (
         <>
-            <header className="flex justify-between items-center py-3 px-6 bg-cyan-400 bg-opacity-40 shadow-lg poppins">
+            <header className="flex justify-between items-center py-3 px-6 bg-cyan-400 bg-opacity-40 shadow-lg">
                 <div className="text-2xl font-extrabold text-cyan-900 dancingScript">BlogApp</div>
                 <div className='flex justify-between items-center w-1/5'>
                     <div className="flex items-center">
@@ -27,7 +27,7 @@ const Header = () => {
                     <FontAwesomeIcon 
                         icon={faBars} 
                         className="text-xl text-cyan-800 transition cursor-pointer duration-300 hover:rotate-180" 
-                        onClick={toggleSidebar} // Toggle sidebar on click
+                        onClick={toggleSidebar}
                     />
                 </div>
             </header>

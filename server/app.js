@@ -78,7 +78,11 @@ app.get("/logout", (req, res) => {
 
 // Protected route example
 app.get("/feed", authenticateToken, (req, res) => {
-    res.send("Welcome to the Feed Page!");
+    res.send("feed");
+});
+
+app.get("/profile", authenticateToken, (req, res) => {
+    res.send("profile");
 });
 
 app.get("*", (req, res) => {

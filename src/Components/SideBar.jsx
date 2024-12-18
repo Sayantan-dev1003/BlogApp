@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'; 
 
 const SideBar = ({ isOpen, onClose }) => {
+    const navigate = useNavigate(); 
+
     const logout = async () => {
         try {
             await fetch('/logout', { method: 'GET', credentials: 'include' });
@@ -9,6 +12,11 @@ const SideBar = ({ isOpen, onClose }) => {
         } catch (error) {
             console.error("Logout failed:", error);
         }
+    };
+
+    const navigateTo = (path) => {
+        navigate(path); 
+        onClose(); 
     };
 
     return (
@@ -31,22 +39,20 @@ const SideBar = ({ isOpen, onClose }) => {
                 </div>
                 <div className="px-1 text-lg">
                     <ul>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Home</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Categories</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Profile</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">My Posts</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Write a Blog</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Saved Posts</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Notifications</li>
-                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Settings</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/feed')}>Home</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/profile')}>Profile</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/categories')}>Categories</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/create')}>Write a Blog</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/saved')}>Saved Posts</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/notifications')}>Notifications</li>
+                        <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/settings')}>Settings</li>
                         <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={logout}>Logout</li>
                     </ul>
                 </div>
-                {/* Footer Section */}
                 <div className="flex flex-col justify-between p-4 border-t border-gray-700">
                     <div className="flex flex-col">
                         <div className="text-center text-lg font-bold tracking-wide mt-auto">BlogApp</div>
-                        <div className="text-center text-xs font-thin">© BlogApp 2024 All Rights Reserved</div>
+                        <div className="text-center text-xs font-thin poppins">© BlogApp 2024 All Rights Reserved</div>
                     </div>
                 </div>
             </div>
