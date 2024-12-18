@@ -4,9 +4,14 @@ mongoose.connect("mongodb://127.0.0.1:27017/blogapp");
 
 const userSchema = mongoose.Schema({
     fullname: String,
-    email: String,
     username: String,
-    password: String, 
+    profilePic: String,
+    bio: String,
+    email: String,
+    phone: Number,
+    dob: String,
+    occupation: String,
+    password: String
 });
 
 export default mongoose.model("user", userSchema);

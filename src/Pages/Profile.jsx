@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Profile = () => {
   const navigate = useNavigate();
 
-  // Sample user data
   const user = {
     name: "Sayantan Halder",
     username: "sayantan_h",
@@ -17,7 +16,7 @@ const Profile = () => {
   };
 
   const handleEdit = () => {
-    navigate('/edit-profile');
+    navigate('/editProfile');
   };
 
   return (
