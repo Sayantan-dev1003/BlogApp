@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
+import bodyParser from "body-parser";
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -15,24 +16,26 @@ const __dirname = dirname(__filename);
 
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
 
 app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../uploads/'); // Ensure this directory exists
+        cb(null, '../uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
+        cb(null, file.originalname);
     }
 });
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
 // Middleware for token verification
 const authenticateToken = (req, res, next) => {
@@ -69,6 +72,7 @@ app.put("/profile", authenticateToken, upload.single('profilePic'), async (req, 
         profilePic: profilePic || undefined // Update profilePic if a new one is uploaded
     }, { new: true });
 
+    // Return the updated user data, including the new profile picture URL
     res.json(updatedUser );
 });
 
@@ -116,7 +120,7 @@ app.get("/logout", (req, res) => {
 
 // Protected route example
 app.get("/feed", authenticateToken, (req, res) => {
-    res.send("feed");
+    res.send ("feed");
 });
 
 // Catch-all route to serve the frontend
@@ -125,4 +129,4 @@ app.get("*", (req, res) => {
 });
 
 // Start the server
-app.listen(3000, () => console.log ("Server started"));
+app.listen(3000, () => console.log("Server started"));

@@ -3,7 +3,6 @@ import LoginPage from "./Pages/LoginPage"
 import FeedPage from './Pages/FeedPage'
 import Profile from './Pages/Profile'
 import EditProfile from './Pages/EditProfile'
-import "./App.css"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

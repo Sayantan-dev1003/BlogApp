@@ -46,12 +46,20 @@ const EditProfile = () => {
       formData.append('profilePic', profilePic);
     }
 
-    await axios.put('/profile', formData, {
+    const response = await axios.put('/profile', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
       withCredentials: true
     });
+
+    // Update userData with the new profile picture URL
+    if (response.data.profilePic) {
+      setUserData(prevData => ({
+        ...prevData,
+        profilePic: response.data.profilePic
+      }));
+    }
 
     navigate('/profile');
   };
@@ -74,7 +82,7 @@ const EditProfile = () => {
 
           <div className="flex justify-center mb-4">
             <img
-              src={userData.profilePic || "https://via.placeholder.com/150"}
+              src={userData.profilePic}
               alt="Profile"
               className="w-32 h-32 rounded-full cursor-pointer"
               onClick={() => setEditPictureOpen(true)}
@@ -191,7 +199,7 @@ const EditProfile = () => {
           profilePhoto={userData.profilePic || "https://via.placeholder.com/150"}
           onEdit={handleEditPicture}
         />
-      </div >
+      </div>
     </>
   );
 };

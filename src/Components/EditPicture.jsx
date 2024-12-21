@@ -1,4 +1,4 @@
-const EditPicture = ({ isOpen, onClose, profilePhoto, onEdit }) => {
+const EditPicture = ({ isOpen, onClose, profilePic, onEdit }) => {
     if (!isOpen) return null;
 
     const handleFileChange = (e) => {
@@ -13,7 +13,7 @@ const EditPicture = ({ isOpen, onClose, profilePhoto, onEdit }) => {
             <div className="bg-white rounded-lg p-6 shadow-lg">
                 <h2 className="text -lg font-bold text-cyan-800 mb-4">Edit Profile Picture</h2>
                 <div className="flex flex-col items-center mb-4">
-                    <img src={profilePhoto} alt="Profile" className="w-64 h-64 rounded-full mb-4" />
+                    <img src={profilePic} alt="Profile" className="w-64 h-64 rounded-full mb-4" />
                     <input type="file" onChange={handleFileChange} className="mb-4" />
                 </div>
                 <div className="flex gap-3">
