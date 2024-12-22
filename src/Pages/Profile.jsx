@@ -6,17 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [user, setUser ] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const response = await fetch('/profile', {
         method: 'GET',
-        credentials: 'include' 
+        credentials: 'include'
       });
       if (response.ok) {
         const data = await response.json();
-        setUser (data);
+        setUser(data);
       } else {
         console.error("Failed to fetch user data");
       }
@@ -35,11 +35,6 @@ const Profile = () => {
       <Header />
       <div className="shadow-md w-2/3 rounded-lg p-6 translate-x-1/4 bg-white mt-5">
         <div className="flex items-start w-full justify-between">
-          <img
-            src={user.profilePic}
-            alt="Profile "
-            className="w-32 h-32 rounded-full border-2 border-gray-300"
-          />
           <div className="w-[80%] py-3">
             <div className='flex justify-between items-start w-full'>
               <div>

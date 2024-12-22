@@ -8,7 +8,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import userModel from "./models/userModel.js";
-import multer from 'multer';
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -17,7 +16,6 @@ const __dirname = dirname(__filename);
 // Middleware
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'dist')));
-
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,54 +24,56 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
-// Multer setup for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, '../uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
-const upload = multer({ storage: storage });
-
 // Middleware for token verification
 const authenticateToken = (req, res, next) => {
     const token = req.cookies.token;
-    if (!token) return res.sendStatus(401); // Unauthorized
+    if (!token) return res.sendStatus(401);
 
     jwt.verify(token, "Sayantan", (err, user) => {
-        if (err) return res.sendStatus(403); // Forbidden
-        req.user = user; // Save user info for use in other routes
+        if (err) return res.sendStatus(403);
+        req.user = user;
         next();
     });
 };
 
 // Get user profile
 app.get("/profile", authenticateToken, async (req, res) => {
-    const user = await userModel.findById(req.user.userid);
-    if (!user) return res.sendStatus(404); // Not Found
-    res.json(user);
+    try {
+        const user = await userModel.findById(req.user.userid);
+        if (!user) return res.sendStatus(404);
+        res.json(user);
+    } catch (error) {
+        res.status(500).send("Error fetching profile: ", error);
+    }
 });
 
 // Update user profile
-app.put("/profile", authenticateToken, upload.single('profilePic'), async (req, res) => {
-    const { fullname, username, bio, email, phone, dob, occupation } = req.body;
-    const profilePic = req.file ? req.file.path : undefined; // Get the uploaded file path
+app.put("/profile", authenticateToken, async (req, res) => {
+    try {
+        const { fullname, username, bio, email, phone, dob, occupation } = req.body;
 
-    const updatedUser  = await userModel.findByIdAndUpdate(req.user.userid, {
-        fullname,
-        username,
-        bio,
-        email,
-        phone,
-        dob,
-        occupation,
-        profilePic: profilePic || undefined // Update profilePic if a new one is uploaded
-    }, { new: true });
+        const updateData = {
+            fullname,
+            username,
+            bio,
+            email,
+            phone,
+            dob,
+            occupation,
+        };
 
-    // Return the updated user data, including the new profile picture URL
-    res.json(updatedUser );
+        const updatedUser  = await userModel.findByIdAndUpdate(
+            req.user.userid,
+            updateData,
+            { new: true }
+        );
+
+        await updatedUser .save();
+
+        res.json(updatedUser );
+    } catch (error) {
+        res.status(500).send("Error updating profile: ", error);
+    }
 });
 
 // User registration
@@ -120,7 +120,7 @@ app.get("/logout", (req, res) => {
 
 // Protected route example
 app.get("/feed", authenticateToken, (req, res) => {
-    res.send ("feed");
+    res.send("feed");
 });
 
 // Catch-all route to serve the frontend
