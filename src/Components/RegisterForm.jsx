@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'; // Import toast
+import { toast } from 'react-toastify'; 
+import PropTypes from 'prop-types'; 
 
 const RegisterForm = ({ onToggle }) => {
+  RegisterForm.propTypes = {
+    onToggle: PropTypes.func.isRequired,
+  }; 
+
   const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -16,12 +21,12 @@ const RegisterForm = ({ onToggle }) => {
     e.preventDefault();
 
     if (!agreement) {
-      toast.error('Please agree to the terms and conditions'); // Show error toast
+      toast.error('Please agree to the terms and conditions'); 
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match'); // Show error toast
+      toast.error('Passwords do not match'); 
       return;
     }
 
@@ -34,21 +39,20 @@ const RegisterForm = ({ onToggle }) => {
       });
 
       if (response.status === 200) {
-        toast.success("Registration Successful!"); // Show success toast
+        toast.success("Registration Successful!"); 
         navigate('/feed');
       }
     } catch (error) {
-      // Check if the error response exists and set the error message
       if (error.response && error.response.data) {
-        toast.error(error.response.data); // Show error toast
+        toast.error(error.response.data); 
       } else {
-        toast.error("An unexpected error occurred."); // General error toast
+        toast.error("An unexpected error occurred."); 
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw]">
+    <form onSubmit={handleSubmit} className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw] mobile:w-[90vw] tablet:w-[70vw] laptop:w-[32vw]">
       <h2 className="text-5xl font-extrabold mb-6 text-center dancingScript">Register</h2>
       <div className="mb-4">
         <label className="block mb-2 text-sm cursor-pointer" htmlFor="fullname">
@@ -127,7 +131,7 @@ const RegisterForm = ({ onToggle }) => {
           checked={agreement}
           onChange={(e) => setAgreement(e.target.checked)}
           required
-          className={`mr-2 text-sm ${!agreement ? 'outline-red-500 border-red-500' : ''}`} // Highlight if not checked
+          className={`mr-2 text-sm ${!agreement ? 'outline-red-500 border-red-500' : ''}`} 
         />
         <label htmlFor="agreement" className="text-xs cursor-pointer">
           I agree to the terms and conditions

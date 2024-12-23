@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'; // Import toast
+import { toast } from 'react-toastify'; 
+import PropTypes from 'prop-types'; 
 
 const LoginForm = ({ onToggle }) => {
+  LoginForm.propTypes = {
+    onToggle: PropTypes.func.isRequired,
+  }; 
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -18,15 +23,14 @@ const LoginForm = ({ onToggle }) => {
       }, { withCredentials: true });
 
       if (response.status === 200) {
-        toast.success("Login Successful!"); // Success toast
+        toast.success("Login Successful!"); 
         navigate('/feed');
       }
     } catch (error) {
-      // Check if the error response exists and set the error message
       if (error.response && error.response.data) {
-        toast.error(error.response.data); // Error toast
+        toast.error(error.response.data); 
       } else {
-        toast.error("An unexpected error occurred."); // General error toast
+        toast.error("An unexpected error occurred."); 
       }
     }
   };
@@ -34,7 +38,7 @@ const LoginForm = ({ onToggle }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw]"
+      className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw] mobile:w-[90vw] tablet:w-[70vw] laptop:w-[32vw]"
     >
       <h2 className="text-5xl font-extrabold mb-6 text-center dancingScript">Login</h2>
       <div className="mb-4">
