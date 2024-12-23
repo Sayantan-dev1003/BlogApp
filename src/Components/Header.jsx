@@ -31,20 +31,19 @@ const Header = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>; // You can replace this with a loading spinner or any other loading indicator
+        return <div>Loading...</div>; 
     }
 
-    // Provide default values for user properties
     const userFullname = user.fullname || 'Guest';
-    const userUsername = user.username || 'username'; // Default username
-    const userBio = user.bio || 'No bio available'; // Default bio
+    const userUsername = user.username || 'username'; 
+    const userBio = user.bio || 'No bio available'; 
 
     return (
         <>
-            <header className="flex justify-between items-center py-3 px-6 bg-cyan-400 bg-opacity-40 shadow-lg">
+            <header className="flex justify-between items-center py-3 px-6 bg-cyan-400 bg-opacity-40 shadow-lg w-full">
                 <div className="text-2xl font-extrabold text-cyan-900 dancingScript">BlogApp</div>
-                <div className='flex justify-between items-center w-1/5'>
-                    <span className="text-cyan-900 dancingScript text-xl font-extrabold">{userFullname}</span>
+                <div className='flex gap-6 justify-end items-center'>
+                    <span className="text-cyan-900 dancingScript text-xl font-extrabold mobile:hidden tablet:block laptop:block">{userFullname}</span>
                     <FontAwesomeIcon icon={faBell} className='text-cyan-800' />
                     <FontAwesomeIcon
                         icon={faBars}
