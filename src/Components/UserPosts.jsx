@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment, faEllipsisV, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
     const fetchUserPosts = async () => {
@@ -38,6 +40,10 @@ const UserPosts = () => {
     }
   };
 
+  const handleEdit = (postId) => {
+    navigate(`/edit/${postId}`); // Navigate to edit page on clicking Edit button
+  };
+
   return (
     <div className="w-full mt-5">
       {posts.length === 0 ? (
@@ -51,7 +57,7 @@ const UserPosts = () => {
                 <FontAwesomeIcon icon={faEllipsisV} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" onClick={() => toggleDropdown(post._id)} />
                 {dropdownVisible === post._id && (
                   <div className="absolute top-2 right-4 mt-10 bg-white shadow-lg rounded-md">
-                    <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><FontAwesomeIcon icon={faPencil} className='text-gray-700' />&nbsp;&nbsp;Edit</p>
+                    <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => handleEdit(post._id)}><FontAwesomeIcon icon={faPencil} className='text-gray-700' />&nbsp;&nbsp;Edit</p>
                     <p className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={() => deletePost(post._id)}>
                       <FontAwesomeIcon icon={faTrash} className='text-gray-700' />&nbsp;&nbsp;Delete
                     </p>

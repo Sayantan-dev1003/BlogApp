@@ -6,6 +6,7 @@ import EditProfile from './Pages/EditProfile'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreatePage from './Pages/CreatePage'
+import EditPost from './Pages/EditPost'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
             <Route path='/profile' element={<Profile />}></Route>
             <Route path='/editProfile' element={<EditProfile />}></Route>
             <Route path='/create' element={<CreatePage />}></Route>
+            <Route path='/edit/:postId' element={<EditPost />}></Route>
         </Routes>
         <ToastContainer 
           position="top-right" // You can change the position as needed

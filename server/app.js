@@ -170,6 +170,42 @@ app.delete("/posts/:id", authenticateToken, async (req, res) => {
     }
 });
 
+// New API endpoint to get a specific post by ID
+app.get("/posts/:id", authenticateToken, async (req, res) => {
+    const postId = req.params.id;
+    try {
+        const post = await postModel.findById(postId).populate('user', 'fullname username bio');
+        if (!post) return res.status(404).json({ message: "Post not found" });
+        res.json(post);
+    } catch (error) {
+        console.error("Error fetching post:", error);
+        res.status(500).json({ message: "Failed to fetch post" });
+    }
+});
+
+// Update a post
+app.put("/posts/:id", authenticateToken, async (req, res) => {
+    const postId = req.params.id;
+    const { title, content, categories, tags } = req.body;
+
+    try {
+        const updatedPost = await postModel.findByIdAndUpdate(
+            postId,
+            { title, content, categories, tags },
+            { new: true }
+        );
+
+        if (!updatedPost) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        res.status(200).json({ message: "Post updated successfully", post: updatedPost });
+    } catch (error) {
+        console.error("Error updating post:", error);
+        res.status(500).json({ message: "Failed to update post" });
+    }
+});
+
 // User logout
 app.get("/logout", (req, res) => {
     res.cookie("token", "", { httpOnly: true, expires: new Date(0) });
