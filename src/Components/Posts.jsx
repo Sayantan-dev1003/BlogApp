@@ -7,6 +7,17 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const [device, setDevice] = useState(window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'laptop');
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDevice(window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'laptop');
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchAllPosts = async () => {
@@ -24,6 +35,18 @@ const Posts = () => {
     fetchAllPosts();
   }, []);
 
+  const truncateBio = (bio) => {
+    const charLimit = {
+      mobile: 60,
+      tablet: 60,
+      laptop: 115
+    };
+    if (bio.length > charLimit[device]) {
+      return `${bio.substring(0, charLimit[device])} ...`;
+    }
+    return bio;
+  };
+
   return (
     <div className="w-full mt-5 pb-10">
       {posts.length === 0 ? (
@@ -35,7 +58,7 @@ const Posts = () => {
               <h2 className="text-2xl mobile:text-xl tablet:text-2xl laptop:text-2xl dancingScript font-semibold text-cyan-900">{post.title}</h2>
               <div className="mt-2 mb-6">
                 <p className="text-sm mobile:text-[0.78rem] mobile:leading-[0.72rem] laptop:text-sm tablet:text-sm text-gray-500">Posted by {post.user.fullname}</p>
-                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{post.user.bio}</p>
+                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{truncateBio(post.user.bio)}</p>
                 <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.72rem] laptop:text-xs tablet:text-xs text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
               </div>
               <p className="text-base mobile:text-sm tablet:text-base laptop:text-base text-cyan-800">{post.content}</p>

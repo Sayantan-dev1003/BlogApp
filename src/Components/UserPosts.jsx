@@ -55,6 +55,18 @@ const UserPosts = () => {
     navigate(`/edit/${postId}`);
   };
 
+  const truncateBio = (bio, device) => {
+    const charLimit = {
+      mobile: 20,
+      tablet: 30,
+      laptop: 40
+    };
+    if (bio.length > charLimit[device]) {
+      return `${bio.substring(0, charLimit[device])}...`;
+    }
+    return bio;
+  };
+
   return (
     <div className="w-full mt-5 pb-10">
       {posts.length === 0 ? (
@@ -77,7 +89,7 @@ const UserPosts = () => {
               </div>
               <div className="mt-2 mb-6">
                 <p className="text-sm mobile:text-[0.78rem] mobile:leading-[0.72rem] laptop:text-sm tablet:text-sm text-gray-500">Posted by {post.user?.fullname || 'Unknown'}</p>
-                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{post.user?.bio || 'No bio available'}</p>
+                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{truncateBio(post.user?.bio || 'No bio available', 'mobile')}</p>
                 <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.72rem] laptop:text-xs tablet:text-xs text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
               </div>
               <p className="text-base mobile:text-sm tablet:text-base laptop:text-base text-cyan-800">{post.content}</p>

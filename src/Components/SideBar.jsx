@@ -2,9 +2,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
 const SideBar = ({ isOpen, onClose, user }) => {
     const navigate = useNavigate();
+
+    const [device, setDevice] = useState(window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'laptop');
+
+    useEffect(() => {
+        const handleResize = () => {
+            setDevice(window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'laptop');
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const logout = async () => {
         try {
@@ -20,8 +33,19 @@ const SideBar = ({ isOpen, onClose, user }) => {
         onClose();
     };
 
+    const truncateBio = (bio) => {
+        const charLimit = {
+            mobile: 70,
+            tablet: 70,
+            laptop: 65
+        };
+        if (bio.length > charLimit[device]) {
+            return `${bio.substring(0, charLimit[device])} ...`;
+        }
+        return bio;
+    };
+
     const userFullname = user?.fullname || 'Guest';
-    const userUsername = user?.username || 'username';
     const userBio = user?.bio || 'No bio available';
 
     return (
@@ -41,12 +65,9 @@ const SideBar = ({ isOpen, onClose, user }) => {
                         <h2 className="text-3xl laptop:text-3xl mobile:text-2xl tablet:text-3xl font-bold dancingScript">BlogApp</h2>
                         <FontAwesomeIcon icon={faArrowRight} className="cursor-pointer" onClick={onClose} />
                     </div>
-                    <div className="flex flex-col gap-3 items-start p-4">
-                        <div>
-                            <div className="text-2xl laptop:text-2xl mobile:text-xl tablet:text-2xl font-semibold">{userFullname}</div>
-                            <div className="text-xs laptop:text-xs mobile:text-xs tablet:text-xs font-light">@{userUsername}</div>
-                        </div>
-                        <div className="text-base laptop:text-base mobile:text-base tablet:text-base">{userBio}</div>
+                    <div className="flex flex-col gap-2 items-start p-4">
+                        <div className="text-2xl laptop:text-2xl mobile:text-xl tablet:text-2xl font-semibold">{userFullname}</div>
+                        <p className="text-base laptop:text-base mobile:text-sm tablet:text-base">{truncateBio(userBio)}</p>
                     </div>
                     <div className="px-1 text-lg laptop:text-lg mobile:text-lg tablet:text-xl mt-3">
                         <ul>
