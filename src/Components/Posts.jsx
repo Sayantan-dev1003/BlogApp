@@ -47,6 +47,31 @@ const Posts = () => {
     return bio;
   };
 
+  const getTimeAgo = (createdAt) => {
+    const now = new Date();
+    const postDate = new Date(createdAt);
+    const diffInSeconds = Math.floor((now - postDate) / 1000);
+
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}s`;
+    } else if (diffInSeconds < 3600) {
+      const minutes = Math.floor(diffInSeconds / 60);
+      return `${minutes}min`;
+    } else if (diffInSeconds < 86400) {
+      const hours = Math.floor(diffInSeconds / 3600);
+      return `${hours}h`;
+    } else if (diffInSeconds < 604800) {
+      const days = Math.floor(diffInSeconds / 86400);
+      return `${days}d`;
+    } else if (diffInSeconds < 2419200) {
+      const weeks = Math.floor(diffInSeconds / 604800);
+      return `${weeks}w`;
+    } else {
+      const months = Math.floor(diffInSeconds / 2419200);
+      return `${months}m`;
+    }
+  };
+
   return (
     <div className="w-full mt-5 pb-10">
       {posts.length === 0 ? (
@@ -59,7 +84,9 @@ const Posts = () => {
               <div className="mt-2 mb-6">
                 <p className="text-sm mobile:text-[0.78rem] mobile:leading-[0.72rem] laptop:text-sm tablet:text-sm text-gray-500">Posted by {post.user.fullname}</p>
                 <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{truncateBio(post.user.bio)}</p>
-                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.72rem] laptop:text-xs tablet:text-xs text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
+                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.72rem] laptop:text-xs tablet:text-xs text-gray-500">
+                  {getTimeAgo(post.date)}
+                </p>
               </div>
               <p className="text-base mobile:text-sm tablet:text-base laptop:text-base text-cyan-800">{post.content}</p>
               <p className="text-xs mobile:text-[0.75rem] tablet:text-xs laptop:text-xs text-cyan-600">#{post.tags.join(' #')}</p>
