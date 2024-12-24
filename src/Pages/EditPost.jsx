@@ -24,6 +24,7 @@ const EditPost = () => {
             setUserId(response.data.userid); // Set the user ID from the response
         } catch (error) {
             console.error("Error fetching current user ID:", error);
+            toast.error('Failed to fetch current user ID. Please try again.');
         }
     };
 
@@ -39,6 +40,7 @@ const EditPost = () => {
             });
         } catch (error) {
             console.error("Error fetching post data:", error);
+            toast.error('Failed to fetch post data. Please try again.');
         }
     };
 
