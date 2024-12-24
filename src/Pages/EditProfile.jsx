@@ -62,7 +62,7 @@ const EditProfile = () => {
   const handleCancel = () => {
     navigate(-1);
   };
-  //0.5 0.75
+  
   return (
     <>
       <div className="w-full h-screen poppins bg-cyan-50">

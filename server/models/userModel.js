@@ -11,7 +11,11 @@ const userSchema = mongoose.Schema({
     phone: Number,
     dob: String,
     occupation: String,
-    password: String
+    password: String,
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "posts"
+    }]
 });
 
 export default mongoose.model("user", userSchema);

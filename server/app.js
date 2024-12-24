@@ -8,6 +8,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import userModel from "./models/userModel.js";
+import postModel from "./models/postModel.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -45,6 +46,11 @@ app.get("/profile", authenticateToken, async (req, res) => {
     } catch (error) {
         res.status(500).send("Error fetching profile: ", error);
     }
+});
+
+// New API endpoint to get current user ID
+app.get("/currentUser", authenticateToken, (req, res) => {
+    res.json({ userid: req.user.userid }); // Send back the user ID
 });
 
 // Update user profile
@@ -109,6 +115,28 @@ app.post("/login", async (req, res) => {
         return res.status(200).json({ message: "Login Successful" });
     } else {
         return res.status(401).json("Invalid email or password");
+    }
+});
+
+// Create a new post
+app.post("/posts", authenticateToken, async (req, res) => {
+    const { title, content, categories, tags } = req.body;
+
+    try {
+        const newPost = new postModel({
+            user: req.user.userid, 
+            title,
+            content,
+            categories,
+            tags,
+        });
+
+        await newPost.save();
+        await userModel.findByIdAndUpdate(req.user.userid, { $push: { posts: newPost._id } }, { new: true });
+        res.status(201).json({ message: "Post created successfully", post: newPost });
+    } catch (error) {
+        console.error("Error creating post:", error);
+        res.status(500).json({ message: "Failed to create post" });
     }
 });
 
