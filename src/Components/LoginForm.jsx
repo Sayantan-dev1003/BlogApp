@@ -40,7 +40,7 @@ const LoginForm = ({ onToggle }) => {
       onSubmit={handleSubmit}
       className="bg-cyan-400 bg-opacity-40 p-6 rounded shadow-md w-[32vw] mobile:w-[90vw] tablet:w-[70vw] laptop:w-[32vw]"
     >
-      <h2 className="text-5xl font-extrabold mb-6 text-center dancingScript">Login</h2>
+      <h2 className="text-5xl font-extrabold mb-6 text-center dancingScript mobile:text-4xl tablet:text-5xl laptop:text-5xl">Login</h2>
       <div className="mb-4">
         <label className="block mb-2 text-sm cursor-pointer" htmlFor="email">
           Email Address
@@ -75,10 +75,10 @@ const LoginForm = ({ onToggle }) => {
       >
         Login
       </button>
-      <p className="mt-4 text-center text-xs">
+      <p className="mt-4 text-center text-xs mobile:text-xs tablet:text-xs laptop:text-xs">
         Don&apos;t have an account?{' '}
-        <button onClick={onToggle} className="text-cyan-900 hover:underline">
-          CREATE NEW ACCOUNT
+        <button onClick={onToggle} className="text-cyan-900 hover:underline text-xs mobile:text-xs tablet:text-xs laptop:text-xs">
+          CREATE ACCOUNT
         </button>
       </p>
     </form>

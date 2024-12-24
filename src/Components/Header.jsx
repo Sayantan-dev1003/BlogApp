@@ -43,7 +43,7 @@ const Header = () => {
             <header className="flex justify-between items-center py-3 px-6 bg-cyan-400 bg-opacity-40 shadow-lg w-full">
                 <div className="text-2xl font-extrabold text-cyan-900 dancingScript">BlogApp</div>
                 <div className='flex gap-6 justify-end items-center'>
-                    <span className="text-cyan-900 dancingScript text-xl font-extrabold mobile:hidden tablet:block laptop:block">{userFullname}</span>
+                    <span className="text-cyan-900 dancingScript font-extrabold mobile:text-sm tablet:text-base laptop:text-lg">{userFullname}</span>
                     <FontAwesomeIcon icon={faBell} className='text-cyan-800' />
                     <FontAwesomeIcon
                         icon={faBars}

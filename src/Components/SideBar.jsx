@@ -33,22 +33,22 @@ const SideBar = ({ isOpen, onClose, user }) => {
                 ></div>
             )}
             <div
-                className={`fixed top-0 right-0 laptop:w-1/4 mobile:w-[80vw] tablet:w-1/2 h-full dancingScript bg-cyan-950 text-white transform transition-transform flex flex-col justify-between duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`fixed top-0 right-0 w-1/4 laptop:w-1/4 mobile:w-[80vw] tablet:w-1/2 h-full dancingScript bg-cyan-950 text-white transform transition-transform flex flex-col justify-between duration-300 z-50 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 <div>
                     <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                        <h2 className="text-3xl font-bold dancingScript">BlogApp</h2>
+                        <h2 className="text-3xl laptop:text-3xl mobile:text-2xl tablet:text-3xl font-bold dancingScript">BlogApp</h2>
                         <FontAwesomeIcon icon={faArrowRight} className="cursor-pointer" onClick={onClose} />
                     </div>
                     <div className="flex items-center p-4">
                         <div>
-                            <div className="text-2xl font-semibold">{userFullname}</div>
-                            <div className="text-xs font-light">@{userUsername}</div>
-                            <div className="text-base">{userBio}</div>
+                            <div className="text-2xl laptop:text-2xl mobile:text-xl tablet:text-2xl font-semibold">{userFullname}</div>
+                            <div className="text-xs laptop:text-xs mobile:text-xs tablet:text-xs font-light">@{userUsername}</div>
+                            <div className="text-base laptop:text-base mobile:text-sm tablet:text-base">{userBio}</div>
                         </div>
                     </div>
-                    <div className="px-1 text-lg mt-3">
+                    <div className="px-1 text-lg laptop:text-lg mobile:text-base tablet:text-lg mt-3">
                         <ul>
                             <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/feed')}>Home</li>
                             <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/profile')}>Profile</li>
@@ -62,8 +62,8 @@ const SideBar = ({ isOpen, onClose, user }) => {
                 </div>
                 <div className="flex flex-col justify-between p-4 border-t border-gray-700">
                     <div className="flex flex-col">
-                        <div className="text-center text-lg font-bold tracking-wide mt-auto">BlogApp</div>
-                        <div className="text-center text-xs font-thin poppins">© BlogApp 2024 All Rights Reserved</div>
+                        <div className="text-center text-lg laptop:text-lg mobile:text-base tablet:text-lg font-bold tracking-wide mt-auto">BlogApp</div>
+                        <div className="text-center text-xs laptop:text-sm mobile:text-xs tablet:text-sm font-thin poppins">© BlogApp 2024 All Rights Reserved</div>
                     </div>
                 </div>
             </div>
