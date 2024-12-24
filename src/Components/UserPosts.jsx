@@ -1,26 +1,33 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faComment, faEllipsisV, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(null);
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserPosts = async () => {
-      const response = await fetch('/posts', {
-        method: 'GET',
-        credentials: 'include'
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      } else {
-        console.error("Failed to fetch user posts");
+      try {
+        const response = await fetch('/userPosts', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+        } else {
+          console.error("Failed to fetch user posts");
+        }
+      } catch (error) {
+        console.error("Error fetching user posts:", error);
       }
     };
+
     fetchUserPosts();
   }, []);
 
@@ -29,23 +36,27 @@ const UserPosts = () => {
   };
 
   const deletePost = async (postId) => {
-    const response = await fetch(`/posts/${postId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    });
-    if (response.ok) {
-      setPosts(posts.filter(post => post._id !== postId));
-    } else {
-      console.error("Failed to delete post");
+    try {
+      const response = await fetch(`/posts/${postId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (response.ok) {
+        setPosts(posts.filter(post => post._id !== postId));
+      } else {
+        console.error("Failed to delete post");
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
     }
   };
 
   const handleEdit = (postId) => {
-    navigate(`/edit/${postId}`); // Navigate to edit page on clicking Edit button
+    navigate(`/edit/${postId}`);
   };
 
   return (
-    <div className="w-full mt-5">
+    <div className="w-full mt-5 pb-10">
       {posts.length === 0 ? (
         <p>No posts available.</p>
       ) : (
@@ -65,20 +76,17 @@ const UserPosts = () => {
                 )}
               </div>
               <div className="mt-2 mb-6">
-                <p className="text-sm mobile:text-[0.78rem] mobile:leading-[0.72rem] laptop:text-sm tablet:text-sm text-gray-500">Posted by {post.user.fullname}</p>
-                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{post.user.bio}</p>
+                <p className="text-sm mobile:text-[0.78rem] mobile:leading-[0.72rem] laptop:text-sm tablet:text-sm text-gray-500">Posted by {post.user?.fullname || 'Unknown'}</p>
+                <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">{post.user?.bio || 'No bio available'}</p>
                 <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.72rem] laptop:text-xs tablet:text-xs text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
               </div>
               <p className="text-base mobile:text-sm tablet:text-base laptop:text-base text-cyan-800">{post.content}</p>
               <p className="text-xs mobile:text-[0.75rem] tablet:text-xs laptop:text-xs text-cyan-600">#{post.tags.join(' #')}</p>
-              <div className='mt-5 flex justify-between items-center'>
-                <p className='text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500'>0 Likes</p>
-                <p className='text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500'>0 Comments</p>
-              </div>
+              <p className='text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500'>{post.likes.length} Likes</p>
             </div>
             <div className="flex items-center gap-5">
-              <FontAwesomeIcon icon={faHeart} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
-              <FontAwesomeIcon icon={faComment} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
+              <FontAwesomeIcon icon={faHeartRegular} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
+              <FontAwesomeIcon icon={faBookmarkRegular} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
             </div>
           </div>
         ))

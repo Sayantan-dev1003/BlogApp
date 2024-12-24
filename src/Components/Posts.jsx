@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
+// import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
+// import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -13,7 +16,6 @@ const Posts = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        // Reverse the posts to show the latest first
         setPosts(data.reverse());
       } else {
         console.error("Failed to fetch posts");
@@ -23,7 +25,7 @@ const Posts = () => {
   }, []);
 
   return (
-    <div className="w-full mt-5">
+    <div className="w-full mt-5 pb-10">
       {posts.length === 0 ? (
         <p>No posts available.</p>
       ) : (
@@ -38,14 +40,11 @@ const Posts = () => {
               </div>
               <p className="text-base mobile:text-sm tablet:text-base laptop:text-base text-cyan-800">{post.content}</p>
               <p className="text-xs mobile:text-[0.75rem] tablet:text-xs laptop:text-xs text-cyan-600">#{post.tags.join(' #')}</p>
-              <div className='mt-5 flex justify-between items-center'>
-                <p className='text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500'>0 Likes</p>
-                <p className='text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500'>0 Comments</p>
-              </div>
+              <p className='text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500 mt-5'>0 Likes</p>
             </div>
             <div className="flex items-center gap-5">
-              <FontAwesomeIcon icon={faHeart} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
-              <FontAwesomeIcon icon={faComment} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
+              <FontAwesomeIcon icon={faHeartRegular} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
+              <FontAwesomeIcon icon={faBookmarkRegular} className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer" />
             </div>
           </div>
         ))

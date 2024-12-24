@@ -48,9 +48,14 @@ app.get("/profile", authenticateToken, async (req, res) => {
     }
 });
 
-// New API endpoint to get current user ID
-app.get("/currentUser ", authenticateToken, (req, res) => {
-    res.json({ userid: req.user.userid }); // Send back the user ID
+// New API endpoint to get posts for the current user
+app.get("/userPosts", authenticateToken, async (req, res) => {
+    try {
+        const posts = await postModel.find({ user: req.user.userid }).populate('user', 'fullname username bio').sort({ createdAt: -1 });
+        res.json(posts);
+    } catch (error) {
+        res.status(500).send("Error fetching user posts: ", error);
+    }
 });
 
 // Update user profile
@@ -133,7 +138,7 @@ app.post("/posts", authenticateToken, async (req, res) => {
 
         await newPost.save();
         await userModel.findByIdAndUpdate(req.user.userid, { $push: { posts: newPost._id } }, { new: true });
-        res.status( 201).json({ message: "Post created successfully", post: newPost });
+        res.status(201).json({ message: "Post created successfully", post: newPost });
     } catch (error) {
         console.error("Error creating post:", error);
         res.status(500).json({ message: "Failed to create post" });
@@ -143,7 +148,7 @@ app.post("/posts", authenticateToken, async (req, res) => {
 // Get all posts from all users
 app.get("/posts", async (req, res) => {
     try {
-        const posts = await postModel.find().populate('user', 'fullname username bio').sort({ createdAt: -1 }); // Sort by createdAt in descending order
+        const posts = await postModel.find().populate('user', 'fullname username bio').sort({ createdAt: -1 });
         res.json(posts);
     } catch (error) {
         res.status(500).send("Error fetching posts: ", error);

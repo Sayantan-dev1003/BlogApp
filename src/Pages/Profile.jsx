@@ -29,6 +29,14 @@ const Profile = () => {
     navigate('/editProfile');
   };
 
+  const handleWriteBlog = () => {
+    navigate('/create');
+  };
+
+  const handleViewSavedPosts = () => {
+    navigate('/savedPosts');
+  };
+
   if (!user) return <div>Loading...</div>;
 
   return (
@@ -46,7 +54,15 @@ const Profile = () => {
         </div>
         <div className="mt-4">
           <h2 className="text-xl mobile:text-lg tablet:text-lg laptop:text-xl font-semibold text-cyan-900">Bio</h2>
-          <p className="text-cyan-700 mobile:text-xs tablet:text-sm laptop:text-sm">{user.bio}</p>
+          <p className="text-cyan-700 text-sm mobile:text-xs tablet:text-sm laptop:text-sm">{user.bio}</p>
+        </div>
+        <div className="mt-4 flex gap-4">
+          <button onClick={handleWriteBlog} className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm mobile:text-xs laptop:text-sm tablet:text-sm py-2 px-3 rounded-full">
+            Write a Blog
+          </button>
+          <button onClick={handleViewSavedPosts} className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm mobile:text-xs laptop:text-sm tablet:text-sm py-2 px-3 rounded-full">
+            View Saved Posts
+          </button>
         </div>
       </div>
       <UserPosts />

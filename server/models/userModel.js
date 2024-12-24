@@ -15,6 +15,14 @@ const userSchema = mongoose.Schema({
     posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "posts"
+    }],
+    liked: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "posts"
+    }],
+    saved: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "posts"
     }]
 });
 
