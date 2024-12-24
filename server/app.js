@@ -140,6 +140,36 @@ app.post("/posts", authenticateToken, async (req, res) => {
     }
 });
 
+// Get posts of the current user
+app.get("/posts", authenticateToken, async (req, res) => {
+    try {
+        const posts = await postModel.find({ user: req.user.userid }).populate('user', 'fullname username bio');
+        res.json(posts);
+    } catch (error) {
+        res.status(500).send("Error fetching posts: ", error);
+    }
+});
+
+// Delete a post
+app.delete("/posts/:id", authenticateToken, async (req, res) => {
+    const postId = req.params.id;
+    try {
+        // Find the post and delete it
+        const post = await postModel.findByIdAndDelete(postId);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        // Remove the post reference from the user's posts array
+        await userModel.findByIdAndUpdate(req.user.userid, { $pull: { posts: postId } });
+
+        res.status(200).json({ message: "Post deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting post:", error);
+        res.status(500).json({ message: "Failed to delete post" });
+    }
+});
+
 // User logout
 app.get("/logout", (req, res) => {
     res.cookie("token", "", { httpOnly: true, expires: new Date(0) });

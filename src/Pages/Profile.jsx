@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from "../Components/Header";
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import UserPosts from '../Components/UserPosts';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const Profile = () => {
           <p className="text-cyan-700 mobile:text-xs tablet:text-sm laptop:text-sm">{user.bio}</p>
         </div>
       </div>
+      <UserPosts />
     </div>
   );
 };

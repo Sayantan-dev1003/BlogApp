@@ -30,25 +30,16 @@ const EditProfile = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
-    if (type === 'file') {
-      setUserData({ ...userData });
-    } else {
-      setUserData({ ...userData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    Object.keys(userData).forEach(key => {
-      formData.append(key, userData[key]);
-    });
-
     try {
-      await axios.put('/profile', formData, {
+      await axios.put('/profile', userData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
       toast.success('Profile updated successfully!');
