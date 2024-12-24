@@ -109,9 +109,9 @@ const EditPost = () => {
 
     return (
         <>
-            <div className="w-full h-screen poppins bg-cyan-50">
+            <div className="w-full h-screen poppins bg-white">
                 <Header />
-                <div className="shadow-md w-2/3 rounded-lg p-6 mx-auto bg-white mt-5 mobile:w-[90vw] tablet:w-[90vw] laptop:w-2/3 mobile:mt-28 tablet:mt-40 laptop:mt-14">
+                <div className="shadow-md w-2/3 rounded-lg p-6 mx-auto bg-cyan-50 mt-5 mobile:w-[90vw] tablet:w-[90vw] laptop:w-2/3 mobile:mt-28 tablet:mt-40 laptop:mt-14">
                     <h1 className="text-2xl font-bold text-cyan-800 mb-4 mobile:text-lg tablet:text-2xl laptop:text-2xl">Edit Blog</h1>
 
                     <form onSubmit={handleUpdate}>
@@ -124,7 +124,7 @@ const EditPost = () => {
                                     value={postData.title}
                                     onChange={handleInputChange}
                                     placeholder="Blog Title"
-                                    className="p-2 border border-gray-300 rounded w-full text-cyan-600 focus:outline focus:outline-2 focus:outline-cyan-600"
+                                    className="p-2 bg-cyan-50 border border-gray-300 rounded w-full text-cyan-600 focus:outline focus:outline-2 focus:outline-cyan-600"
                                     required
                                 />
                             </div>
@@ -136,7 +136,7 @@ const EditPost = () => {
                                     value={postData.content}
                                     onChange={handleInputChange}
                                     placeholder="Blog Content"
-                                    className="p-2 border border-gray-300 rounded w-full text-cyan-600 focus:outline focus:outline-2 focus:outline-cyan-600"
+                                    className="p-2 bg-cyan-50 border border-gray-300 rounded w-full text-cyan-600 focus:outline focus:outline-2 focus:outline-cyan-600"
                                     rows="5"
                                     required
                                 />
@@ -148,7 +148,7 @@ const EditPost = () => {
                                     isMulti
                                     name="categories"
                                     options={categoryOptions}
-                                    className="basic-multi-select"
+                                    className="basic-multi-select bg-cyan-50"
                                     classNamePrefix="select"
                                     value={postData.categories}
                                     onChange={handleChange}
@@ -164,7 +164,7 @@ const EditPost = () => {
                                     value={postData.tags}
                                     onChange={handleInputChange}
                                     placeholder="Comma-separated tags"
-                                    className="p-2 border border-gray-300 rounded w-full text-cyan-600 focus:outline focus:outline-2 focus:outline-cyan-600"
+                                    className="p-2 bg-cyan-50 border border-gray-300 rounded w-full text-cyan-600 focus:outline focus:outline-2 focus:outline-cyan-600"
                                 />
                             </div>
                         </div>

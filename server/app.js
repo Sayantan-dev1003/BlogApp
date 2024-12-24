@@ -49,7 +49,7 @@ app.get("/profile", authenticateToken, async (req, res) => {
 });
 
 // New API endpoint to get current user ID
-app.get("/currentUser", authenticateToken, (req, res) => {
+app.get("/currentUser ", authenticateToken, (req, res) => {
     res.json({ userid: req.user.userid }); // Send back the user ID
 });
 
@@ -124,7 +124,7 @@ app.post("/posts", authenticateToken, async (req, res) => {
 
     try {
         const newPost = new postModel({
-            user: req.user.userid, 
+            user: req.user.userid,
             title,
             content,
             categories,
@@ -133,17 +133,17 @@ app.post("/posts", authenticateToken, async (req, res) => {
 
         await newPost.save();
         await userModel.findByIdAndUpdate(req.user.userid, { $push: { posts: newPost._id } }, { new: true });
-        res.status(201).json({ message: "Post created successfully", post: newPost });
+        res.status( 201).json({ message: "Post created successfully", post: newPost });
     } catch (error) {
         console.error("Error creating post:", error);
         res.status(500).json({ message: "Failed to create post" });
     }
 });
 
-// Get posts of the current user
-app.get("/posts", authenticateToken, async (req, res) => {
+// Get all posts from all users
+app.get("/posts", async (req, res) => {
     try {
-        const posts = await postModel.find({ user: req.user.userid }).populate('user', 'fullname username bio');
+        const posts = await postModel.find().populate('user', 'fullname username bio').sort({ createdAt: -1 }); // Sort by createdAt in descending order
         res.json(posts);
     } catch (error) {
         res.status(500).send("Error fetching posts: ", error);
@@ -154,13 +154,11 @@ app.get("/posts", authenticateToken, async (req, res) => {
 app.delete("/posts/:id", authenticateToken, async (req, res) => {
     const postId = req.params.id;
     try {
-        // Find the post and delete it
         const post = await postModel.findByIdAndDelete(postId);
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        // Remove the post reference from the user's posts array
         await userModel.findByIdAndUpdate(req.user.userid, { $pull: { posts: postId } });
 
         res.status(200).json({ message: "Post deleted successfully" });

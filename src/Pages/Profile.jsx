@@ -32,9 +32,9 @@ const Profile = () => {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="w-full h-screen poppins bg-cyan-50">
+    <div className="w-full h-screen poppins bg-white">
       <Header />
-      <div className="shadow-md w-2/3 mx-auto mobile:w-[90vw] tablet:w-2/3 laptop:w-2/3 rounded-lg p-6 mobile:mx-auto tablet:mx-auto laptop:mx-auto bg-white mt-5">
+      <div className="shadow-md w-2/3 mx-auto mobile:w-[90vw] tablet:w-2/3 laptop:w-2/3 rounded-lg p-6 mobile:mx-auto tablet:mx-auto laptop:mx-auto bg-cyan-50 mt-5">
         <div className="flex items-start w-full justify-between">
           <div className='flex justify-between items-start w-full py-3'>
             <div>

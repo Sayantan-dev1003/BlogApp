@@ -50,7 +50,7 @@ const UserPosts = () => {
         <p>No posts available.</p>
       ) : (
         posts.map(post => (
-          <div key={post._id} className="shadow-md w-2/3 mx-auto mobile:w-[90vw] tablet:w-2/3 laptop:w-2/3 rounded-lg p-6 bg-white mb-4 flex flex-col items-start justify-between relative">
+          <div key={post._id} className="shadow-md w-2/3 mx-auto mobile:w-[90vw] tablet:w-2/3 laptop:w-2/3 rounded-lg p-6 bg-cyan-50 mb-4 flex flex-col items-start justify-between relative">
             <div className="w-full border-b-2 border-gray-200 pb-1 mb-4">
               <div className='flex justify-between items-center'>
                 <h2 className="text-2xl mobile:text-xl tablet:text-2xl laptop:text-2xl dancingScript font-semibold text-cyan-900">{post.title}</h2>
