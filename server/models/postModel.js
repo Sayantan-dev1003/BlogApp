@@ -22,11 +22,13 @@ const postSchema = mongoose.Schema({
     },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
+        ref: "user",
+        default: []
     }],
     bookmarks: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
+        ref: "user",
+        default: []
     }],
     categories: {
         type: [String], 

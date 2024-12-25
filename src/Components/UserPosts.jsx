@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faPencil, faTrash, faHeart as faHeartSolid, faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
@@ -8,6 +8,7 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null); // Added state to store current user's ID
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +29,23 @@ const UserPosts = () => {
       }
     };
 
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await fetch('/profile', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          setCurrentUserId(userData._id); // Assuming user ID is in _id
+        }
+      } catch (error) {
+        console.error('Error fetching current user:', error);
+      }
+    };
+
     fetchUserPosts();
+    fetchCurrentUser();
   }, []);
 
   const toggleDropdown = (postId) => {
@@ -53,6 +70,40 @@ const UserPosts = () => {
 
   const handleEdit = (postId) => {
     navigate(`/edit/${postId}`);
+  };
+
+  const toggleLike = async (postId) => {
+    try {
+      const response = await fetch(`/posts/${postId}/like`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const updatedPost = await response.json(); // This should now include user data
+        setPosts(posts.map(post => post._id === postId ? updatedPost : post));
+      } else {
+        console.error('Failed to like post');
+      }
+    } catch (error) {
+      console.error('Error liking post:', error);
+    }
+  };
+
+  const toggleBookmark = async (postId) => {
+    try {
+      const response = await fetch(`/posts/${postId}/bookmark`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const updatedPost = await response.json(); // This should now include user data
+        setPosts(posts.map(post => post._id === postId ? updatedPost : post));
+      } else {
+        console.error('Failed to bookmark post');
+      }
+    } catch (error) {
+      console.error('Error bookmarking post:', error);
+    }
   };
 
   const truncateBio = (bio, device) => {
@@ -102,7 +153,7 @@ const UserPosts = () => {
             key={post._id}
             className="shadow-md w-2/3 mx-auto mobile:w-[90vw] tablet:w-2/3 laptop:w-2/3 rounded-lg p-6 bg-cyan-50 mb-4 flex flex-col items-start justify-between relative"
           >
-            <div className="w-full border-b-2 border-gray-200 pb-1 mb-4">
+            <div className="w-full border-b border-cyan-600 mb-2">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl mobile:text-xl tablet:text-2xl laptop:text-2xl dancingScript font-semibold text-cyan-900">
                   {post.title}
@@ -148,18 +199,20 @@ const UserPosts = () => {
               <p className="text-xs mobile:text-[0.75rem] tablet:text-xs laptop:text-xs text-cyan-600">
                 #{post.tags.join(' #')}
               </p>
-              <p className="text-sm mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500">
-                {post.likes.length} Likes
+              <p className="text-sm mt-4 mb-1 mobile:text-xs tablet:text-sm laptop:text-sm text-gray-500">
+                {(post.likes && Array.isArray(post.likes)) ? post.likes.length : 0} Likes
               </p>
             </div>
             <div className="flex items-center gap-5">
               <FontAwesomeIcon
-                icon={faHeartRegular}
+                icon={post.likes && post.likes.includes(currentUserId) ? faHeartSolid : faHeartRegular}
                 className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer"
+                onClick={() => toggleLike(post._id)}
               />
               <FontAwesomeIcon
-                icon={faBookmarkRegular}
+                icon={post.bookmarks && post.bookmarks.includes(currentUserId) ? faBookmarkSolid : faBookmarkRegular}
                 className="text-lg text-cyan-500 hover:text-cyan-700 cursor-pointer"
+                onClick={() => toggleBookmark(post._id)}
               />
             </div>
           </div>

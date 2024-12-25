@@ -73,15 +73,15 @@ app.put("/profile", authenticateToken, async (req, res) => {
             occupation,
         };
 
-        const updatedUser  = await userModel.findByIdAndUpdate(
+        const updatedUser = await userModel.findByIdAndUpdate(
             req.user.userid,
             updateData,
             { new: true }
         );
 
-        await updatedUser .save();
+        await updatedUser.save();
 
-        res.json(updatedUser );
+        res.json(updatedUser);
     } catch (error) {
         res.status(500).send("Error updating profile: ", error);
     }
@@ -90,8 +90,8 @@ app.put("/profile", authenticateToken, async (req, res) => {
 // User registration
 app.post("/register", async (req, res) => {
     const { fullname, email, username, password } = req.body;
-    const existingUser  = await userModel.findOne({ $or: [{ email }, { username }, { fullname }] });
-    if (existingUser ) return res.status(401).json("Something went wrong");
+    const existingUser = await userModel.findOne({ $or: [{ email }, { username }, { fullname }] });
+    if (existingUser) return res.status(401).json("Something went wrong");
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -206,6 +206,66 @@ app.put("/posts/:id", authenticateToken, async (req, res) => {
     } catch (error) {
         console.error("Error updating post:", error);
         res.status(500).json({ message: "Failed to update post" });
+    }
+});
+
+// Like a post
+app.post("/posts/:id/like", authenticateToken, async (req, res) => {
+    const postId = req.params.id;
+    try {
+        const post = await postModel.findById(postId).populate('user', 'fullname bio'); // Populate user data
+        const userId = req.user.userid;
+
+        if (!post) return res.status(404).json({ message: "Post not found" });
+
+        if (post.likes.includes(userId)) {
+            // User already liked the post, remove like
+            post.likes = post.likes.filter(id => id.toString() !== userId.toString());
+            await post.save();
+            await userModel.findByIdAndUpdate(userId, { $pull: { liked: postId } });
+        } else {
+            // User likes the post
+            post.likes.push(userId);
+            await post.save();
+            await userModel.findByIdAndUpdate(userId, { $addToSet: { liked: postId } });
+        }
+
+        // Return the updated post with user data
+        const updatedPost = await postModel.findById(postId).populate('user', 'fullname bio');
+        res.status(200).json(updatedPost);
+    } catch (error) {
+        console.error("Error liking post:", error);
+        res.status(500).json({ message: "Failed to like post" });
+    }
+});
+
+// Bookmark a post
+app.post("/posts/:id/bookmark", authenticateToken, async (req, res) => {
+    const postId = req.params.id;
+    try {
+        const post = await postModel.findById(postId).populate('user', 'fullname bio'); // Populate user data
+        const userId = req.user.userid;
+
+        if (!post) return res.status(404).json({ message: "Post not found" });
+
+        if (post.bookmarks.includes(userId)) {
+            // User already bookmarked the post, remove bookmark
+            post.bookmarks = post.bookmarks.filter(id => id.toString() !== userId.toString());
+            await post.save();
+            await userModel.findByIdAndUpdate(userId, { $pull: { saved: postId } });
+        } else {
+            // User bookmarks the post
+            post.bookmarks.push(userId);
+            await post.save();
+            await userModel.findByIdAndUpdate(userId, { $addToSet: { saved: postId } });
+        }
+
+        // Return the updated post with user data
+        const updatedPost = await postModel.findById(postId).populate('user', 'fullname bio');
+        res.status(200).json(updatedPost);
+    } catch (error) {
+        console.error("Error bookmarking post:", error);
+        res.status(500).json({ message: "Failed to bookmark post" });
     }
 });
 
