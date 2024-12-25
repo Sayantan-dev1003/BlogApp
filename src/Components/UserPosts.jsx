@@ -60,7 +60,7 @@ const UserPosts = () => {
         });
         if (response.ok) {
           const userData = await response.json();
-          setCurrentUserId(userData._id); // Assuming user ID is in _id
+          setCurrentUserId(userData._id);
         }
       } catch (error) {
         console.error('Error fetching current user:', error);
@@ -102,7 +102,7 @@ const UserPosts = () => {
         credentials: 'include',
       });
       if (response.ok) {
-        const updatedPost = await response.json(); // This should now include user data
+        const updatedPost = await response.json();
         setPosts(posts.map(post => post._id === postId ? updatedPost : post));
       } else {
         console.error('Failed to like post');
@@ -119,7 +119,7 @@ const UserPosts = () => {
         credentials: 'include',
       });
       if (response.ok) {
-        const updatedPost = await response.json(); // This should now include user data
+        const updatedPost = await response.json();
         setPosts(posts.map(post => post._id === postId ? updatedPost : post));
       } else {
         console.error('Failed to bookmark post');

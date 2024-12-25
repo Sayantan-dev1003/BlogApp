@@ -16,18 +16,17 @@ const CreatePage = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = useState(null);
 
-    // Fetch current user ID from the server
     const fetchCurrentUserId = async () => {
         try {
             const response = await axios.get('/current-user');
-            setUserId(response.data.userid); // Set the user ID from the response
+            setUserId(response.data.userid);
         } catch (error) {
             console.error("Error fetching current user ID:", error);
         }
     };
 
     useEffect(() => {
-        fetchCurrentUserId(); // Call the function on component mount
+        fetchCurrentUserId();
     }, []);
 
     const categoryOptions = [

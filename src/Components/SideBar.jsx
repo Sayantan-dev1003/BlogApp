@@ -74,8 +74,8 @@ const SideBar = ({ isOpen, onClose, user }) => {
                             <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/feed')}>Home</li>
                             <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/profile')}>Profile</li>
                             <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/create')}>Write a Blog</li>
-                            <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/notifications')}>Notifications</li>
-                            <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={() => navigateTo('/settings')}>Settings</li>
+                            <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Notifications</li>
+                            <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md">Settings</li>
                             <li className="py-2 px-4 tracking-wide hover:bg-cyan-800 cursor-pointer rounded-md" onClick={logout}>Logout</li>
                         </ul>
                     </div>

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Select from 'react-select';
 
 const EditPost = () => {
-    const { postId } = useParams(); // Get post ID from URL parameters
+    const { postId } = useParams();
     const [postData, setPostData] = useState({
         title: '',
         content: '',
@@ -17,18 +17,16 @@ const EditPost = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = useState(null);
 
-    // Fetch current user ID from the server
     const fetchCurrentUserId = async () => {
         try {
-            const response = await axios.get('/currentUser'); // Removed extra space
-            setUserId(response.data.userid); // Set the user ID from the response
+            const response = await axios.get('/currentUser');
+            setUserId(response.data.userid);
         } catch (error) {
             console.error("Error fetching current user ID:", error);
             toast.error('Failed to fetch current user ID. Please try again.');
         }
     };
 
-    // Fetch post data by ID
     const fetchPostData = async () => {
         try {
             const response = await axios.get(`/posts/${postId}`);
@@ -45,8 +43,8 @@ const EditPost = () => {
     };
 
     useEffect(() => {
-        fetchCurrentUserId(); // Call the function on component mount
-        fetchPostData(); // Fetch post data
+        fetchCurrentUserId();
+        fetchPostData();
     }, [postId]);
 
     const categoryOptions = [
