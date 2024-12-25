@@ -269,6 +269,28 @@ app.post("/posts/:id/bookmark", authenticateToken, async (req, res) => {
     }
 });
 
+// New API endpoint to get liked posts for the current user
+app.get("/user/likedPosts", authenticateToken, async (req, res) => {
+    try {
+        const user = await userModel.findById(req.user.userid).populate('liked');
+        if (!user) return res.sendStatus(404);
+        res.json(user.liked);
+    } catch (error) {
+        res.status(500).send("Error fetching liked posts: ", error);
+    }
+});
+
+// New API endpoint to get bookmarked posts for the current user
+app.get("/user/bookmarkedPosts", authenticateToken, async (req, res) => {
+    try {
+        const user = await userModel.findById(req.user.userid).populate('saved');
+        if (!user) return res.sendStatus(404);
+        res.json(user.saved);
+    } catch (error) {
+        res.status(500).send("Error fetching bookmarked posts: ", error);
+    }
+});
+
 // User logout
 app.get("/logout", (req, res) => {
     res.cookie("token", "", { httpOnly: true, expires: new Date(0) });

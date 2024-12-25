@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreatePage from './Pages/CreatePage'
 import EditPost from './Pages/EditPost'
-import SavedPage from './Pages/SavedPage'
 
 const App = () => {
   return (
@@ -19,11 +18,10 @@ const App = () => {
             <Route path='/editProfile' element={<EditProfile />}></Route>
             <Route path='/create' element={<CreatePage />}></Route>
             <Route path='/edit/:postId' element={<EditPost />}></Route>
-            <Route path='/savedPosts' element={<SavedPage />}></Route>
         </Routes>
         <ToastContainer 
           position="top-right" // You can change the position as needed
-          autoClose={2000} // Duration in milliseconds for auto close
+          autoClose={1300} // Duration in milliseconds for auto close
           hideProgressBar={false} // Show progress bar
           newestOnTop={false} // Newest toast on top
           closeOnClick // Close on click

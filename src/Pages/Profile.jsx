@@ -33,10 +33,6 @@ const Profile = () => {
     navigate('/create');
   };
 
-  const handleViewSavedPosts = () => {
-    navigate('/savedPosts');
-  };
-
   if (!user) return <div>Loading...</div>;
 
   return (
@@ -56,9 +52,6 @@ const Profile = () => {
         <div className="mt-4 flex gap-4">
           <button onClick={handleWriteBlog} className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm mobile:text-xs laptop:text-sm tablet:text-sm py-2 px-3 rounded-full">
             Write a Blog
-          </button>
-          <button onClick={handleViewSavedPosts} className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm mobile:text-xs laptop:text-sm tablet:text-sm py-2 px-3 rounded-full">
-            View Saved Posts
           </button>
         </div>
       </div>

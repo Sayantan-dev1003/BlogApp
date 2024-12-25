@@ -8,8 +8,31 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null); // Added state to store current user's ID
+  const [currentUserId, setCurrentUserId] = useState(null); 
+  const [device, setDevice] = useState(window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'laptop');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDevice(window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'laptop');
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const truncateBio = (bio) => {
+    const charLimit = {
+      mobile: 60,
+      tablet: 60,
+      laptop: 115
+    };
+    if (bio.length > charLimit[device]) {
+      return `${bio.substring(0, charLimit[device])} ...`;
+    }
+    return bio;
+  };
 
   useEffect(() => {
     const fetchUserPosts = async () => {
@@ -106,18 +129,6 @@ const UserPosts = () => {
     }
   };
 
-  const truncateBio = (bio, device) => {
-    const charLimit = {
-      mobile: 20,
-      tablet: 30,
-      laptop: 40,
-    };
-    if (bio.length > charLimit[device]) {
-      return `${bio.substring(0, charLimit[device])}...`;
-    }
-    return bio;
-  };
-
   const getTimeAgo = (createdAt) => {
     const now = new Date();
     const postDate = new Date(createdAt);
@@ -187,7 +198,7 @@ const UserPosts = () => {
                   Posted by {post.user?.fullname || 'Unknown'}
                 </p>
                 <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.78rem] laptop:text-xs tablet:text-xs text-gray-500">
-                  {truncateBio(post.user?.bio || 'No bio available', 'mobile')}
+                  {truncateBio(post.user?.bio || 'No bio available')}
                 </p>
                 <p className="text-xs mobile:text-[0.6rem] mobile:leading-[0.72rem] laptop:text-xs tablet:text-xs text-gray-500">
                   {getTimeAgo(post.date)}

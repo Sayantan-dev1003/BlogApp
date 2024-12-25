@@ -18,11 +18,13 @@ const userSchema = mongoose.Schema({
     }],
     liked: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "posts"
+        ref: "posts",
+        default: []
     }],
     saved: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "posts"
+        ref: "posts",
+        default: []
     }]
 });
 
