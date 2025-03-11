@@ -25,3 +25,8 @@ npm install
 npm server
 npm install
 nodemon app
+```
+
+![Image](https://github.com/user-attachments/assets/22625a37-a281-4d3b-b4e8-b9011c95181f)
+![Image](https://github.com/user-attachments/assets/dd8fa325-6e94-4519-bdc0-c6813b706014)
+![Image](https://github.com/user-attachments/assets/f92d76c7-0aea-4ab0-bacf-a73755ca880c)
